@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>World Map Cup - Challenge #3</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.46.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+    </style>
+</head>
+<body>
+
+<style>
+#map {
+    position: fixed;
+    width:50%;
+}
+#features {
+    width: 50%;
+    margin-left: 50%;
+    font-family: Tw Cen MT;
+    overflow-y: scroll;
+    background-color: #fafafa;
+}
+section {
+    padding:  25px 50px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 20px;
+}
+section.active {
+    opacity: 1;
+}
+section:last-child {
+    border-bottom: none;
+    margin-bottom: 1000px;
+}
+</style>
+
+<div id='map'></div>
+<div id='features'>
+    <section id='welcome' class='active'>
+        <h3>World Cup Stadium Locations</h3>
+        <p>Scroll through this interactive tour to see all of the World Cup Stadium locations.</p>
+    </section>
+    <section id='stadium1' class='active'>
+        <h3>Ekaterinburg Arena</h3>
+        <p>Located in Yekaterinburg, Ekaterinburg Arena is our first stop on this tour of stadiums<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Estadio_Central_%28Ekaterinburg-arena%29.jpg/300px-Estadio_Central_%28Ekaterinburg-arena%29.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Central_Stadium_(Yekaterinburg)">More Info</a></p>
+    </section>
+    <section id='stadium2'>
+        <h3>Kaliningrad Stadium</h3>
+        <p>Located in Kaliningrad, this is one of the smaller stadiums, only seating 33,973 for the tournament<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Kaliningrad_stadium_-_2018-04-07.jpg/220px-Kaliningrad_stadium_-_2018-04-07.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Kaliningrad_Stadium">More Info</a></p>
+    </section>
+    <section id='stadium3'>
+        <h3>Mordovia Arena</h3>
+        <p>Host to a number of group stage matches, this stadium didn't see any action in the elimination rounds<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/29062334998_mordovia-arena-saransk-russia-may-2018.jpg/300px-29062334998_mordovia-arena-saransk-russia-may-2018.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Mordovia_Arena">More Info</a></p>
+    </section>
+    <section id='stadium4'>
+        <h3>Samara Arena</h3>
+        <p>The location of the Sweden-England Quarter Finals match that pushed England into the Semi Finals<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Samara_Arena.jpg/300px-Samara_Arena.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Cosmos_Arena">More Info</a></p>
+    </section>
+    <section id='stadium5'>
+        <h3>Kazan Arena</h3>
+        <p>This is where it all ended for Argentina, unfortunately<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%8C_%D0%B0%D1%80%D0%B5%D0%BD%D0%B0.jpg/300px-%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%8C_%D0%B0%D1%80%D0%B5%D0%BD%D0%B0.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Kazan_Arena">More Info</a></p>
+    </section>
+    <section id='stadium6'>
+        <h3>Nizhny Novgorod Stadium</h3>
+        <p>The site of a thrilling Quarter Finals match between France and Uruguay<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/%D0%A1%D1%82%D0%B0%D0%B4%D0%B8%D0%BE%D0%BD_%D0%9D%D0%B8%D0%B6%D0%BD%D0%B8%D0%B9_%D0%9D%D0%BE%D0%B2%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%2C_23_%D0%B8%D1%8E%D0%BD%D1%8F_2018.jpg/220px-%D0%A1%D1%82%D0%B0%D0%B4%D0%B8%D0%BE%D0%BD_%D0%9D%D0%B8%D0%B6%D0%BD%D0%B8%D0%B9_%D0%9D%D0%BE%D0%B2%D0%B3%D0%BE%D1%80%D0%BE%D0%B4%2C_23_%D0%B8%D1%8E%D0%BD%D1%8F_2018.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Nizhny_Novgorod_Stadium">More Info</a></p>
+    </section>
+    <section id='stadium7' class='active'>
+        <h3>Rostov-on-Don Stadium</h3>
+        <p>This stadium hosted the surprising opening round draw between Brazil and Switzerland<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Rostov_Arena2018_%28cropped%29.jpg/300px-Rostov_Arena2018_%28cropped%29.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Rostov_Arena">More Info</a></p>
+    </section>
+    <section id='stadium8'>
+        <h3>Volgograd Arena</h3>
+        <p>Another location that only saw a handful of group stages<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Volgograd_Arena_2018-06-25_before_match_Saudi_Arabia_vs_Egypt_Outside_01.jpeg/300px-Volgograd_Arena_2018-06-25_before_match_Saudi_Arabia_vs_Egypt_Outside_01.jpeg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Volgograd_Arena">More Info</a></p>
+    </section>
+    <section id='stadium9'>
+        <h3>Spartak Stadium</h3>
+        <p>The location that featured the extra-time classic between England and Columbia, concluding in PKs<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Stadium_Spartak_in_Moscow_%28cropped%29.jpg/300px-Stadium_Spartak_in_Moscow_%28cropped%29.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Otkritie_Arena">More Info</a></p>
+    </section>
+    <section id='stadium10'>
+        <h3>Fisht Stadium</h3>
+        <p>This stadium was built for the 2014 Sochi Olympics<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Fisht_Stadium_in_January_2018.jpg/220px-Fisht_Stadium_in_January_2018.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Fisht_Olympic_Stadium">More Info</a></p>
+        </p>
+    </section>
+    <section id='stadium11'>
+        <h3>Saint Petersburg Stadium</h3>
+        <p>The location that was used for the Semi Finals game between France and Belgium, as well as the Third Place match between England and Belgium<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Spb_06-2017_img40_Krestovsky_Stadium_%28cropped%29.jpg/320px-Spb_06-2017_img40_Krestovsky_Stadium_%28cropped%29.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Krestovsky_Stadium">More Info</a></p>
+    </section>
+    <section id='stadium12'>
+        <h3>Luzhniki Stadium</h3>
+        <p>Luzhniki Stadium was host to the Finals, and ultimately France's victory<br><br> <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Moscow-Exterior_of_Luzhniki_Stadium_%282%29.jpg/220px-Moscow-Exterior_of_Luzhniki_Stadium_%282%29.jpg" width='480' ><br><br><a href="https://en.wikipedia.org/wiki/Luzhniki_Stadium">More Info</a></p>
+    </section>
+</div>
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoibWNnb3ZleSIsImEiOiJjampocTlzZDMwYjljM3Jzb3FzcTN1enh6In0.Kqqmnl2_jDPr-KqatOZiog';
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mcgovey/cjit8fr292wii2ro7si58jldi',
+        bearing: -0,
+        center: [37.52984664657049,55.75369642243939],
+        zoom: 2,
+        speed: 0.8,
+        pitch: 0
+});
+var chapters = {
+    'welcome': {
+        bearing: -0,
+        center: [37.52984664657049,55.75369642243939],
+        zoom: 2,
+        speed: 0.8,
+        pitch: 0
+    },
+    'stadium1': {
+        bearing: 0,
+        center: [60.573611,56.8325],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium2': {
+        bearing: 0,
+        center: [20.533889,54.698056],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium3': {
+        bearing: 0,
+        center: [45.201389,54.182778],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium4': {
+        bearing: 0,
+        center: [50.237222,53.277778],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium5': {
+        bearing: 0,
+        center: [49.158497,55.818837],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium6': {
+        bearing: 0,
+        center: [43.963333,56.3375],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium7': {
+        bearing: 0,
+        center: [39.737778,47.209444],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium8': {
+        bearing: 0,
+        center: [44.548611,48.734444],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium9': {
+        bearing: 0,
+        center: [37.44025,55.817861],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium10': {
+        bearing: 0,
+        center: [39.956111,43.402267],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium11': {
+        bearing: 0,
+        center: [30.220533,59.972953],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+    'stadium12': {
+        bearing: 0,
+        center: [37.553758,55.715989],
+        zoom: 14.00,
+        speed: 1,
+        pitch: 20
+    },
+};
+// On every scroll event, check which element is on screen
+window.onscroll = function() {
+    var chapterNames = Object.keys(chapters);
+    for (var i = 0; i < chapterNames.length; i++) {
+        var chapterName = chapterNames[i];
+        if (isElementOnScreen(chapterName)) {
+            setActiveChapter(chapterName);
+            break;
+        }
+    }
+};
+var activeChapterName = 'welcome';
+function setActiveChapter(chapterName) {
+    if (chapterName === activeChapterName) return;
+    map.flyTo(chapters[chapterName]);
+    document.getElementById(chapterName).setAttribute('class', 'active');
+    document.getElementById(activeChapterName).setAttribute('class', '');
+    activeChapterName = chapterName;
+}
+function isElementOnScreen(id) {
+    var element = document.getElementById(id);
+    var bounds = element.getBoundingClientRect();
+    return bounds.top < window.innerHeight && bounds.bottom > 0;
+}
+</script>
+</body>
+</html>
